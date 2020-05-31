@@ -11,7 +11,7 @@ pipeline {
          stage('Build Docker') {
              steps {
                 sh 'echo Building image with DCOKER'
-                sh './run_docker.sh'
+                sh 'docker build -t 2002714/capstone:latest .'
                 sh 'echo Building image with DCOKER Completed'
              }
          }
