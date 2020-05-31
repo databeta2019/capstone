@@ -15,7 +15,7 @@ pipeline {
          stage('Build and Upload Docker') {
              steps {
                 script {
-                    def custImage = docker.build registry + ":$BUILD_NUMBER"
+                    def customImage = docker.build registry + ":$BUILD_NUMBER"
                     customImage.push()
                 }
             }
