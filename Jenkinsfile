@@ -19,5 +19,15 @@ pipeline {
                 }
             }
          }
+         stage('Upload Docker') {
+             steps {
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+         }
+
 	}
 }
