@@ -1,8 +1,4 @@
 pipeline {
-     environment {
-         registry = "2002714/capstone"
-         registryCredential = 'docker'
-     }
      agent any
      stages {
          stage('Lint Python') {
@@ -12,13 +8,13 @@ pipeline {
                 sh 'echo Checking Files with LINT Completed'
              }
          }
-         stage('Build and Upload Docker') {
+         stage('Build Docker') {
              steps {
-                script {
-                    def customImage = docker.build registry + ":$BUILD_NUMBER"
-                    customImage.push('latest')
-                }
-            }
+                sh 'echo Building with Docker'
+                sh 'docker build --tag=capstone .'
+                sh 'docker image ls'
+                sh 'echo Checking Files with LINT Completed'
+             }
          }
 
 	}
