@@ -1,4 +1,8 @@
 pipeline {
+     environment {
+         registry = "2002714/capstone"
+         registryCredential = 'docker'
+     }
      agent any
      stages {
          stage('Lint Python') {
@@ -10,10 +14,10 @@ pipeline {
          }
          stage('Build Docker') {
              steps {
-                sh 'echo Building image with DCOKER'
-                sh 'docker build -t 2002714/capstone:latest .'
-                sh 'echo Building image with DCOKER Completed'
-             }
+                script {
+                    docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
          }
 	}
 }
