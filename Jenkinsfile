@@ -41,7 +41,7 @@ pipeline {
 	        steps {
 	                withAWS(region:'us-west-2', credentials:'capstone') {
 	                        sh '''
-	                                kubectl apply -f ./blue-green-service.json
+	                                kubectl apply -f ./blue-green-services.json
 	                        '''
 	                }
 	        }
