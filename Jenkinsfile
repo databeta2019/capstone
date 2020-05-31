@@ -55,6 +55,15 @@ pipeline {
 				}
 			}
 		}
+		stage('Expose container') {
+			steps {
+				withAWS(region:'us-east-1', credentials:'aws-static') {
+					sh '''
+						kubectl expose deployment blueimage --type=LoadBalancer --port=80
+					'''
+				}
+			}
+		}
         stage('Get service url') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {
