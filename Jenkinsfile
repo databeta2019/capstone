@@ -2,6 +2,7 @@ pipeline {
      environment {
          registry = "2002714/capstone"
          registryCredential = 'docker'
+         dockerImage = ''
      }
      agent any
      stages {
