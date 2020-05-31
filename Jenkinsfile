@@ -37,15 +37,32 @@ pipeline {
 				}
 			}
 		}
-        stage('deploy the service') {
+        stage('Deploy the service') {
 	        steps {
-	                withAWS(region:'us-west-2', credentials:'capstone') {
-	                        sh '''
-	                                kubectl apply -f ./blue-green-services.json
-	                        '''
-	                }
+                withAWS(region:'us-west-2', credentials:'capstone') {
+                    sh '''
+                            kubectl apply -f ./blue-green-services.json
+                    '''
+                }
 	        }
 		}
-
+		stage('Create blue container') {
+			steps {
+				withAWS(region:'us-west-2', credentials:'capstone') {
+					sh '''
+						kubectl run blueimage --image=2002714/capstone:$BUILD_ID --port=80
+					'''
+				}
+			}
+		}
+        stage('Get service url') {
+	        steps {
+                withAWS(region:'us-west-2', credentials:'capstone') {
+                    sh '''
+                            kubectl get services
+                    '''
+                }
+	        }
+        }
 	}
 }
