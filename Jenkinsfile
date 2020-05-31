@@ -50,16 +50,16 @@ pipeline {
 			steps {
 				withAWS(region:'us-west-2', credentials:'capstone') {
 					sh '''
-						kubectl run blueimage --image=2002714/capstone:$BUILD_ID --port=80
+						kubectl run blueimage2 --image=2002714/capstone:$BUILD_ID --port=80
 					'''
 				}
 			}
 		}
 		stage('Expose container') {
 			steps {
-				withAWS(region:'us-east-1', credentials:'aws-static') {
+				withAWS(region:'us-west-1', credentials:'capstone') {
 					sh '''
-						kubectl expose deployment blueimage --type=LoadBalancer --port=80
+						kubectl expose deployment blueimag2 --type=LoadBalancer --port=80
 					'''
 				}
 			}
