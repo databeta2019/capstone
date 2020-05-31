@@ -16,7 +16,7 @@ pipeline {
                 sh 'echo Building with DOCKER Completed'
              }
          }
-         stage('Build Docker') {
+         stage('Uploading Docker') {
              steps {
                 sh 'echo Uploading to DOCKER'
                 sh '''
