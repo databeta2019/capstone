@@ -37,5 +37,15 @@ pipeline {
 				}
 			}
 		}
+        stage('deploy the service') {
+	        steps {
+	                withAWS(region:'us-west-2', credentials:'capstone') {
+	                        sh '''
+	                                kubectl apply -f ./blue-green-service.json
+	                        '''
+	                }
+	        }
+		}
+
 	}
 }
