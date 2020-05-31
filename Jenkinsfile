@@ -8,29 +8,26 @@ pipeline {
                 sh 'echo Checking Files with LINT Completed'
              }
          }
-         stage('Build Docker') {
-             steps {
-                sh 'echo Building with DOCKER'
-                sh 'docker build --tag=capstone .'
-                sh 'docker image ls'
-                sh 'echo Building with DOCKER Completed'
-             }
-         }
-         stage('Uploading Docker') {
-             steps {
-                sh 'echo Uploading to DOCKER'
-                sh '''
-                    dockerpath="2002714/app"
-                    '''
-                sh  '''
-                    echo "Docker ID and Image: $dockerpath"
-                '''
-                sh 'docker login --username 2002714 --password-stdin < ~/mypassword'
-                sh 'docker tag app:latest 2002714/capstone:latest'
-                sh 'docker push 2002714/capstone:latest'
-                sh 'echo Uploading to DOCKER Completed'
-             }
-         }
+		stage('Build Docker Image') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker build -t 2002714/capstone:$BUILD_ID .
+					'''
+				}
+			}
+		}
+
+		stage('Push Image To Dockerhub') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						docker push 2002714/capstone:$BUILD_ID
+					'''
+				}
+			}
+		}
 
 	}
 }
