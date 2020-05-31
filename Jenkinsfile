@@ -10,10 +10,25 @@ pipeline {
          }
          stage('Build Docker') {
              steps {
-                sh 'echo Building with Docker'
+                sh 'echo Building with DOCKER'
                 sh 'docker build --tag=capstone .'
                 sh 'docker image ls'
-                sh 'echo Checking Files with LINT Completed'
+                sh 'echo Building with DOCKER Completed'
+             }
+         }
+         stage('Build Docker') {
+             steps {
+                sh 'echo Uploading to DOCKER'
+                sh '''
+                    dockerpath="2002714/app"
+                    '''
+                sh  '''
+                    echo "Docker ID and Image: $dockerpath"
+                '''
+                sh 'docker login --username 2002714 --password-stdin < ~/mypassword'
+                sh 'docker tag app:latest 2002714/capstone:latest'
+                sh 'docker push 2002714/capstone:latest'
+                sh 'echo Uploading to DOCKER Completed'
              }
          }
 
