@@ -37,6 +37,15 @@ pipeline {
 				}
 			}
 		}
+        stage('Create Blue Controller') {
+            steps{
+                withAWS(region:'us-west-2',credentials:'capstone') {
+                    sh 'kubectl apply -f ./blue-controller.json'
+
+                }
+            }
+        }
+
         stage('Deploy the service') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {
@@ -45,24 +54,6 @@ pipeline {
                     '''
                 }
 	        }
-		}
-		stage('Create blue container') {
-			steps {
-				withAWS(region:'us-west-2', credentials:'capstone') {
-					sh '''
-						kubectl run blueimage3 --image=2002714/capstone:$BUILD_ID --port=80
-					'''
-				}
-			}
-		}
-		stage('Expose container') {
-			steps {
-				withAWS(region:'us-west-1', credentials:'capstone') {
-					sh '''
-						kubectl expose deployment blueimage3 --type=LoadBalancer --port=80
-					'''
-				}
-			}
 		}
         stage('Get service url') {
 	        steps {
