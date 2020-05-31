@@ -16,7 +16,7 @@ pipeline {
              steps {
                 script {
                     def customImage = docker.build registry + ":$BUILD_NUMBER"
-                    customImage.push()
+                    customImage.push('latest')
                 }
             }
          }
