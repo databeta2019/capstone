@@ -12,7 +12,7 @@ pipeline {
 			steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
-						docker build -t 2002714/capstone:$BUILD_ID .
+						docker build -t 2002714/capstone:lastest .
 					'''
 				}
 			}
@@ -23,7 +23,7 @@ pipeline {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
 						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-						docker push 2002714/capstone:$BUILD_ID
+						docker push 2002714/capstone:lastest
 					'''
 				}
 			}
@@ -57,34 +57,25 @@ pipeline {
                 }
             }
         }
-		stage('Check for Docker PS 2') {
-			steps {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
-					sh '''
-						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-						docker ps -a
-					'''
-				}
-			}
-		}
+        stage('Rollout') {
+            steps{
+                withAWS(region:'us-west-2',credentials:'capstone') {
+                    sh 'kubectl rolling-update staging --image=2002714/capstone:lastest'
+                }
+            }
+        }
+  
         stage('Deploy the service') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {
                     sh '''
                             kubectl apply -f ./blue-green-services.json
+	                    	kubectl get pods
+	                    	kubectl get deployments
+	                    	kubectl get nodes
                     '''
                 }
 	        }
-		}
-		stage('Check for Docker PS 3') {
-			steps {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
-					sh '''
-						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-						docker ps -a
-					'''
-				}
-			}
 		}
         stage('Get service url') {
 	        steps {
