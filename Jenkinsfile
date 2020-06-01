@@ -45,6 +45,16 @@ pipeline {
                 }
             }
         }
+		stage('Check for Docker PS') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						docker ps -a
+					'''
+				}
+			}
+		}
 
         stage('Deploy the service') {
 	        steps {
