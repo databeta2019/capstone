@@ -37,6 +37,18 @@ pipeline {
 				}
 			}
 		}
+		stage('Check for Docker PS 1') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						dockerpath="2002714/udacityproject"
+						kubectl create deployment app-deployed2 --image=$dockerpath:latest
+						docker ps -a
+					'''
+				}
+			}
+		}
         stage('Create Blue Controller') {
             steps{
                 withAWS(region:'us-west-2',credentials:'capstone') {
@@ -45,7 +57,7 @@ pipeline {
                 }
             }
         }
-		stage('Check for Docker PS') {
+		stage('Check for Docker PS 2') {
 			steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
@@ -55,7 +67,6 @@ pipeline {
 				}
 			}
 		}
-
         stage('Deploy the service') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {
@@ -64,6 +75,16 @@ pipeline {
                     '''
                 }
 	        }
+		}
+		stage('Check for Docker PS 3') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						docker ps -a
+					'''
+				}
+			}
 		}
         stage('Get service url') {
 	        steps {
