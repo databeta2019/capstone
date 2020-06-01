@@ -1,10 +1,9 @@
-FROM nginx
-
-## Step 1:
+FROM nginx:1.18.0-alpine
+## Step 1: Delete the one used by Nginx
 RUN rm /usr/share/nginx/html/index.html
 
 ## Step 2:
-# Copy source code to working directory
+# Replace the file we deleted with our file
 COPY index.html /usr/share/nginx/html
 
 
