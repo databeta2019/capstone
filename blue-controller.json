@@ -2,26 +2,26 @@
   "kind": "ReplicationController",
   "apiVersion": "v1",
   "metadata": {
-    "name": "bluetype",
+    "name": "bluetype2",
     "labels": {
-      "app": "bluetype"
+      "app": "bluetype2"
     }
   },
   "spec": {
     "replicas": 1,
     "selector": {
-      "app": "bluetype"
+      "app": "bluetype2"
     },
     "template": {
       "metadata": {
         "labels": {
-          "app": "bluetype"
+          "app": "bluetype2"
         }
       },
       "spec": {
         "containers": [
           {
-            "name": "bluetype",
+            "name": "bluetype2",
             "image": "2002714/capstone",
             "ports": [
               {

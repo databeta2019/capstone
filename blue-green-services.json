@@ -15,7 +15,7 @@
          }
       ],
       "selector":{
-         "app":"bluetype"
+         "app":"bluetype2"
       },
       "type": "LoadBalancer"
    }
