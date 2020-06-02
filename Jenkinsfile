@@ -32,6 +32,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-west-2', credentials:'capstone') {
 					sh '''
+						aws eks --region us-west-2 update-kubeconfig --name prod2
 						kubectl config use-context arn:aws:eks:us-west-2:281958947511:cluster/prod2
 					'''
 				}
@@ -47,8 +48,7 @@ pipeline {
 	                    	kubectl get pods
 	                    	kubectl get deployments
 	                    	kubectl get nodes
-							kubectl set image deployments/bluetype2 capstone=2002714/capstone:latest
-  	                    	kubectl apply -f ./blue-controller.json
+	                    	kubectl apply -f ./blue-controller.json
 	                    	kubectl get pods
 	                    	kubectl get deployments
 	                    	kubectl get nodes

@@ -2,9 +2,9 @@
    "kind":"Service",
    "apiVersion":"v1",
    "metadata":{
-      "name":"bluegreenlb2",
+      "name":"bluegreenlbcapstone",
       "labels":{
-         "app":"bluegreenlb2"
+         "app":"bluegreenlbcapstone"
       }
    },
    "spec":{
@@ -15,7 +15,7 @@
          }
       ],
       "selector":{
-         "app":"bluetype2"
+         "app":"bluecapstone"
       },
       "type": "LoadBalancer"
    }

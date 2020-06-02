@@ -1,21 +1,23 @@
 {
-  "kind": "ReplicationController",
+  "kind": "Deployment",
   "apiVersion": "v1",
   "metadata": {
-    "name": "bluecapstone",
+    "name": "capstone",
     "labels": {
-      "app": "bluecapstone"
+      "app": "capstone"
     }
   },
   "spec": {
     "replicas": 1,
     "selector": {
-      "app": "bluecapstone"
-    },
+        "matchLabels":{
+            "app": "capstone"
+        }
+    }
     "template": {
       "metadata": {
         "labels": {
-          "app": "bluecapstone"
+          "app": "capstone"
         }
       },
       "spec": {
@@ -23,9 +25,9 @@
           {
             "name": "bluecapstone",
             "image": "2002714/capstone",
+            "imagePullPolicy": "Always",
             "ports": [
               {
-                "name": "http-server",
                 "containerPort": 80
               }
             ]
