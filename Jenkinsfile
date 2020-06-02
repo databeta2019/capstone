@@ -51,7 +51,7 @@ pipeline {
 			steps {
 				withAWS(region:'us-east-2', credentials:'capstone') {
 					sh '''
-						kubectl run blueimage --image=jasmeen922002714/capstone:latest --port=80
+						kubectl run blueimagecapstone --image=2002714/capstone:latest --port=80
 					'''
 				}
 			}
