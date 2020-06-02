@@ -18,7 +18,7 @@ pipeline {
 			}
 		}
 
-		stage('Push Image To Dockerhub') {
+		stage('Push git To Dockerhub') {
 			steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
@@ -28,7 +28,7 @@ pipeline {
 				}
 			}
 		}
-		stage('Set current kubectl context') {
+		stage('Create and Set current kubectl context') {
 			steps {
 				withAWS(region:'us-west-2', credentials:'capstone') {
 					sh '''
