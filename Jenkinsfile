@@ -38,6 +38,18 @@ pipeline {
 				}
 			}
 		}
+        stage('Deploy the service') {
+	        steps {
+                withAWS(region:'us-west-2', credentials:'capstone') {
+                    sh '''
+                            kubectl apply -f ./blue-green-services.json
+	                    	kubectl get pods
+	                    	kubectl get deployments
+	                    	kubectl get nodes
+                    '''
+                }
+	        }
+		}
         stage('Create Blue Controller') {
             steps{
                 withAWS(region:'us-west-2',credentials:'capstone') {
@@ -58,18 +70,6 @@ pipeline {
                 }
             }
         }
-        stage('Deploy the service') {
-	        steps {
-                withAWS(region:'us-west-2', credentials:'capstone') {
-                    sh '''
-                            kubectl apply -f ./blue-green-services.json
-	                    	kubectl get pods
-	                    	kubectl get deployments
-	                    	kubectl get nodes
-                    '''
-                }
-	        }
-		}
         stage('Get service url') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {
