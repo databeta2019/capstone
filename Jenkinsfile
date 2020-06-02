@@ -63,6 +63,9 @@ pipeline {
                 withAWS(region:'us-west-2', credentials:'capstone') {
                     sh '''
                             kubectl get services
+                            kubectl get pods
+                            kubeconfig get nodes
+                            kubectl get deployments
                     '''
                 }
 	        }
