@@ -70,7 +70,7 @@ pipeline {
         stage('Rollout') {
             steps{
                 withAWS(region:'us-west-2',credentials:'capstone') {
-                    sh 'kubectl rolling-update bluetype2 --image=2002714/capstone:lastest'
+                    sh 'kubectl rolling-update bluetype3 --image=2002714/capstone:lastest'
                 }
             }
         }
