@@ -40,7 +40,7 @@ pipeline {
 		}
         stage('Deploy the service') {
                 steps {
-                        withAWS(region:'us-east-2', credentials:'jenkins') {
+                        withAWS(region:'us-east-2', credentials:'capstone') {
                                 sh '''
                                         kubectl apply -f ./blue-green-service.json
                                 '''
@@ -49,7 +49,7 @@ pipeline {
         }
 		stage('Deploy blue container') {
 			steps {
-				withAWS(region:'us-east-2', credentials:'jenkins') {
+				withAWS(region:'us-east-2', credentials:'capstone') {
 					sh '''
 						kubectl run blueimage --image=jasmeen922002714/capstone:latest --port=80
 					'''
