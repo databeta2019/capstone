@@ -23,6 +23,7 @@
           {
             "name": "bluecapstone",
             "image": "2002714/capstone",
+            "imagePullPolicy" : "Always",
             "ports": [
               {
                 "name": "http-server",
