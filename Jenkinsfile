@@ -47,11 +47,40 @@ pipeline {
                         }
                 }
         }
+        stage('Create Blue Controller') {
+            steps{
+                withAWS(region:'us-west-2',credentials:'capstone') {
+					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+	                    sh '''
+							docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+							docker ps -a
+	                    	kubectl get pods
+	                    	kubectl get deployments
+	                    	kubectl get nodes
+	                    	kubectl apply -f ./deployments/blue-controller.json
+	                    	kubectl get pods
+	                    	kubectl get deployments
+	                    	kubectl get nodes
+							docker ps -a
+	                    '''
+					}
+                }
+            }
+        }
+        stage('Rollout') {
+            steps{
+                withAWS(region:'us-west-2',credentials:'capstone') {
+                    sh 'kubectl rolling-update bluetype2 --image=2002714/capstone:lastest'
+                }
+            }
+        }
+  
+
 		stage('Deploy blue container') {
 			steps {
 				withAWS(region:'us-east-2', credentials:'capstone') {
 					sh '''
-						kubectl run blueimagecapstone --image=2002714/capstone:latest --port=80
+						kubectl run blueimagecapstone2 --image=2002714/capstone:latest --port=80
 					'''
 				}
 			}
