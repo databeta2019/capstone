@@ -39,37 +39,25 @@ pipeline {
 			}
 		}
         stage('Deploy the service') {
-	        steps {
-                withAWS(region:'us-west-2', credentials:'capstone') {
-                    sh '''
-                            kubectl apply -f ./blue-green-services.json
-	                    	kubectl get pods
-	                    	kubectl get deployments
-	                    	kubectl get nodes
-                    '''
+                steps {
+                        withAWS(region:'us-east-2', credentials:'jenkins') {
+                                sh '''
+                                        kubectl apply -f ./blue-green-service.json
+                                '''
+                        }
                 }
-	        }
-		}
-        stage('Create Blue Controller') {
-            steps{
-                withAWS(region:'us-west-2',credentials:'capstone') {
-					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
-	                    sh '''
-							docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-							docker ps -a
-	                    	kubectl get pods
-	                    	kubectl get deployments
-	                    	kubectl get nodes
-	                    	kubectl apply -f ./blue-controller.json
-	                    	kubectl get pods
-	                    	kubectl get deployments
-	                    	kubectl get nodes
-							docker ps -a
-	                    '''
-					}
-                }
-            }
         }
+		stage('Deploy blue container') {
+			steps {
+				withAWS(region:'us-east-2', credentials:'jenkins') {
+					sh '''
+						kubectl run blueimage --image=jasmeen922002714/capstone:latest --port=80
+					'''
+				}
+			}
+		}
+
+
         stage('Get service url') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {

@@ -1,0 +1,37 @@
+{
+  "kind": "ReplicationController",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "bluecapstone",
+    "labels": {
+      "app": "bluecapstone"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "app": "bluecapstone"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "bluecapstone"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "bluecapstone",
+            "image": "2002714/capstone",
+            "ports": [
+              {
+                "name": "http-server",
+                "containerPort": 80
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

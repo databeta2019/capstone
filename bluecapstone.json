@@ -24,7 +24,7 @@
         "containers": [
           {
             "name": "bluecapstone",
-            "image": "2002714/capstone",
+            "image": "2002714/bluecapstone",
             "imagePullPolicy": "Always",
             "ports": [
               {
