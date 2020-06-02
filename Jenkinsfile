@@ -47,7 +47,8 @@ pipeline {
 	                    	kubectl get pods
 	                    	kubectl get deployments
 	                    	kubectl get nodes
-	                    	kubectl apply -f ./blue-controller.json
+							kubectl set image deployments/bluetype2 capstone=2002714/capstone:latest
+  	                    	kubectl apply -f ./blue-controller.json
 	                    	kubectl get pods
 	                    	kubectl get deployments
 	                    	kubectl get nodes
@@ -57,14 +58,6 @@ pipeline {
                 }
             }
         }
-        stage('Rollout') {
-            steps{
-                withAWS(region:'us-west-2',credentials:'capstone') {
-                    sh 'kubectl rolling-update bluetype2 --image=2002714/capstone:lastest'
-                }
-            }
-        }
-  
         stage('Deploy the service') {
 	        steps {
                 withAWS(region:'us-west-2', credentials:'capstone') {
