@@ -57,7 +57,7 @@ pipeline {
 	                    	kubectl get pods
 	                    	kubectl get deployments
 	                    	kubectl get nodes
-	                    	kubectl apply -f ./deployments/blue-controller.json
+	                    	kubectl apply -f ./bluecapstone/blue-controller.json
 	                    	kubectl get pods
 	                    	kubectl get deployments
 	                    	kubectl get nodes
