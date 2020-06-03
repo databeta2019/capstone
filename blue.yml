@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capstone
+  labels:
+    app: capstone
+  namespace: default
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: capstone
+  template:
+    metadata:
+      labels:
+        app: capstone
+    spec:
+      containers:
+        - image: 2002714/bluecapstone:bluecapstone
+          imagePullPolicy: Always
+          name: bluecapstone
+          ports:
+            - containerPort: 80
