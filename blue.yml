@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: capstone
+  name: bluecapstone
   labels:
-    app: capstone
+    app: bluecapstone
   namespace: default
 spec:
   replicas: 2 
   selector:
     matchLabels:
-      app: capstone
+      app: bluecapstone
   template:
     metadata:
       labels:
-        app: capstone
+        app: bluecapstone
     spec:
       containers:
         - image: 2002714/bluecapstone:latest
