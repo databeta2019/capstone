@@ -16,7 +16,7 @@ spec:
         app: capstone
     spec:
       containers:
-        - image: 2002714/greencapstone:greencapstone
+        - image: 2002714/greencapstone:latest
           imagePullPolicy: Always
           name: greencapstone
           ports:
